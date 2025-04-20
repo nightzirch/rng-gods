@@ -1,10 +1,11 @@
 "use client";
 
 import { BackButton } from "@/components/BackButton/BackButton";
-import { useStore } from "@/hooks/useStore";
+import { StoreContext } from "@/context/StoreContext";
+import { useContext } from "react";
 
 export default function Store() {
-  const { store } = useStore();
+  const { store } = useContext(StoreContext);
 
   return (
     <>
@@ -18,9 +19,9 @@ export default function Store() {
         <BackButton />
       </header>
 
-      <main className="overflow-hidden">Main</main>
+      <main className="overflow-hidden"></main>
 
-      <footer className="grid grid-cols-1 gap-4 p-4">Footer</footer>
+      <footer></footer>
     </>
   );
 }

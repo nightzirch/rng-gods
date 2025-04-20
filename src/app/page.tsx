@@ -4,14 +4,14 @@ import { Cutscene } from "@/components/Cutscene/Cutscene";
 import HistoryItem from "@/components/HistoryItem/HistoryItem";
 import { RainbowButton } from "@/components/RainbowButton/RainbowButton";
 import { StoreButton } from "@/components/StoreButton/StoreButton";
-import { useHistory } from "@/hooks/useHistory";
-import { useStore } from "@/hooks/useStore";
+import { HistoryContext } from "@/context/HistoryContext";
+import { StoreContext } from "@/context/StoreContext";
 import { roll } from "@/utils/rarity";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 export default function Home() {
-  const { history, addToHistory } = useHistory();
-  const { store, addCoinsByHistory } = useStore();
+  const { history, addToHistory } = useContext(HistoryContext);
+  const { store, addCoinsByHistory } = useContext(StoreContext);
   const [showVideo, setShowVideo] = useState(false);
 
   function rollDice() {

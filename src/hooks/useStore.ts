@@ -18,12 +18,12 @@ function StoreReducer(
   }
 }
 
-const initialState: Store = {
+export const initialStoreState: Store = {
   coins: 0,
 };
 
 export function useStore() {
-  const [store, storeDispatch] = useReducer(StoreReducer, initialState);
+  const [store, storeDispatch] = useReducer(StoreReducer, initialStoreState);
 
   const addCoinsByHistory = (historyItem: History) => {
     storeDispatch({
