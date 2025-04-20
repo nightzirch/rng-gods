@@ -1,5 +1,9 @@
 import { Rarity } from "../types/Rarity";
 
+export function roll(): number {
+  return Math.random();
+}
+
 export function getRarity(roll: number): Rarity {
   if (roll < 0.5) {
     // 1 in 2

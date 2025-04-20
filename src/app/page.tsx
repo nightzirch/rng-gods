@@ -1,18 +1,22 @@
 "use client";
 
-import HistoryItem from "@/components/HistoryItem/HistoryItem";
-import { useHistory } from "./hooks/useHistory";
-import { RainbowButton } from "@/components/RainbowButton/RainbowButton";
 import { Cutscene } from "@/components/Cutscene/Cutscene";
+import HistoryItem from "@/components/HistoryItem/HistoryItem";
+import { RainbowButton } from "@/components/RainbowButton/RainbowButton";
 import { useState } from "react";
+import { useHistory } from "./hooks/useHistory";
+import { useStore } from "./hooks/useStore";
+import { roll } from "./utils/rarity";
 
 export default function Home() {
   const { history, addToHistory } = useHistory();
+  const { store, addCoinsByHistory } = useStore();
   const [showVideo, setShowVideo] = useState(false);
 
   function rollDice() {
-    const roll = Math.random();
-    const item = addToHistory(roll);
+    const rollResult = roll();
+    const item = addToHistory(rollResult);
+    addCoinsByHistory(item);
 
     if (item.rarity === "Mythic") {
       setShowVideo(true);
@@ -39,7 +43,14 @@ export default function Home() {
         {showVideo && <Cutscene />}
       </ul>
 
-      <RainbowButton onClick={rollDice}>Roll</RainbowButton>
+      <div className="grid grid-cols-2 gap-4 p-4">
+        <div className="flex flex-col items-center justify-center">
+          <span className="text-3xl font-bold text-center ">
+            Coins: {store.coins}
+          </span>
+        </div>
+        <RainbowButton onClick={rollDice}>Roll</RainbowButton>
+      </div>
     </main>
   );
 }
