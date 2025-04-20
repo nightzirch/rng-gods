@@ -67,3 +67,17 @@ export function getColorByRarity(rarity: Rarity): string {
       return '';
   }
 }
+export function getSizeByRarity(rarity: Rarity): string {
+  switch (rarity) {
+    case 'Rare':
+      return 'text-2xl';
+    case 'Epic':
+      return 'text-3xl';
+    case 'Legendary':
+      return 'text-4xl';
+    case 'Mythic':
+      return 'text-5xl';
+    default:
+      return 'text-xl';
+  }
+}
