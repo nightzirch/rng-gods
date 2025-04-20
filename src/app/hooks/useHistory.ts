@@ -17,16 +17,20 @@ function historyReducer(
 export function useHistory() {
   const [history, historyDispatch] = useReducer(historyReducer, []);
 
-  const addToHistory = (roll: number) => {
+  const addToHistory = (roll: number): History => {
+    const historyItem: History = {
+      roll: roll,
+      timestamp: new Date(),
+      rarity: getRarity(roll),
+      id: crypto.randomUUID(),
+    };
+
     historyDispatch({
       type: "ADD",
-      payload: {
-        roll: roll,
-        timestamp: new Date(),
-        rarity: getRarity(roll),
-        id: crypto.randomUUID(),
-      },
+      payload: historyItem,
     });
+
+    return historyItem;
   };
 
   return { history, addToHistory };
