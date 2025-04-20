@@ -1,11 +1,11 @@
 "use client";
 
-import { History } from "@/app/types/History";
+import { History } from "@/types/History";
 import {
   getChanceByRarity,
   getColorByRarity,
   getSizeByRarity,
-} from "@/app/utils/rarity";
+} from "@/utils/rarity";
 import classNames from "classnames";
 
 type HistoryItemProps = {
