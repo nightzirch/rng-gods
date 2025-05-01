@@ -1,16 +1,17 @@
 "use client";
 
 import { BackButton } from "@/components/BackButton/BackButton";
+import Header from "@/components/Header/Header";
+import PageContainer from "@/components/PageContainer/PageContainer";
 import { StoreItem } from "@/components/StoreItem/StoreItem";
 import { ModifierContext } from "@/context/ModifierContext";
 import { StoreContext } from "@/context/StoreContext";
 import { StoreItemType } from "@/types/Store";
-import { formatModifierByActiveStoreItems } from "@/utils/modifier";
 import { useContext } from "react";
 
 export default function Store() {
   const { store, removeCoinsByStoreItem } = useContext(StoreContext);
-  const { activeModifiers, addModifier } = useContext(ModifierContext);
+  const { addModifier } = useContext(ModifierContext);
 
   function handleItemClick(item: StoreItemType) {
     addModifier(item);
@@ -22,36 +23,27 @@ export default function Store() {
       cost: 500,
       label: "x0.5 luck",
       luckModifier: 0.5,
-      durationSeconds: 60,
+      duration: 60,
     },
     {
       cost: 2000,
       label: "x2 luck",
       luckModifier: 2,
-      durationSeconds: 60,
+      duration: 90,
     },
     {
       cost: 10000,
       label: "x10 luck",
       luckModifier: 10,
-      durationSeconds: 60,
+      duration: 120,
     },
   ];
 
   return (
-    <>
-      <header className="grid grid-cols-2 gap-4 p-4">
-        <div className="flex flex-col items-center justify-center">
-          <span className="text-3xl font-bold text-center ">
-            Coins: {store.coins}
-          </span>
-          <span className="text-3xl font-bold text-center ">
-            Luck: {formatModifierByActiveStoreItems(activeModifiers)}
-          </span>
-        </div>
-
+    <PageContainer>
+      <Header>
         <BackButton />
-      </header>
+      </Header>
 
       <main className="p-4">
         <div className="grid grid-cols-2 gap-4">
@@ -67,6 +59,6 @@ export default function Store() {
       </main>
 
       <footer></footer>
-    </>
+    </PageContainer>
   );
 }

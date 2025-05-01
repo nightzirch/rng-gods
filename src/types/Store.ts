@@ -6,5 +6,5 @@ export type StoreItemType = {
   label: string;
   cost: number;
   luckModifier: number;
-  durationSeconds: number;
+  duration: number;
 };

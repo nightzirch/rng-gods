@@ -1,22 +1,21 @@
 "use client";
 
+import { Button } from "@/components/Button/Button";
 import { Cutscene } from "@/components/Cutscene/Cutscene";
+import Header from "@/components/Header/Header";
 import HistoryItem from "@/components/HistoryItem/HistoryItem";
+import PageContainer from "@/components/PageContainer/PageContainer";
 import { RainbowButton } from "@/components/RainbowButton/RainbowButton";
-import { StoreButton } from "@/components/StoreButton/StoreButton";
 import { HistoryContext } from "@/context/HistoryContext";
 import { ModifierContext } from "@/context/ModifierContext";
 import { StoreContext } from "@/context/StoreContext";
-import {
-  formatModifierByActiveStoreItems,
-  getModifierByActiveStoreItems,
-} from "@/utils/modifier";
+import { getModifierByActiveStoreItems } from "@/utils/modifier";
 import { roll } from "@/utils/rarity";
 import { useContext, useState } from "react";
 
 export default function Home() {
   const { history, addToHistory } = useContext(HistoryContext);
-  const { store, addCoinsByHistory } = useContext(StoreContext);
+  const { addCoinsByHistory } = useContext(StoreContext);
   const { activeModifiers } = useContext(ModifierContext);
 
   const [showVideo, setShowVideo] = useState(false);
@@ -44,19 +43,11 @@ export default function Home() {
   }
 
   return (
-    <>
-      <header className="grid grid-cols-2 gap-4 p-4">
-        <div className="flex flex-col items-center justify-center">
-          <span className="text-3xl font-bold text-center ">
-            Coins: {store.coins}
-          </span>
-          <span className="text-3xl font-bold text-center ">
-            Luck: {formatModifierByActiveStoreItems(activeModifiers)}
-          </span>
-        </div>
-
-        <StoreButton />
-      </header>
+    <PageContainer>
+      <Header>
+        <Button href="inventory">Inventory</Button>
+        <Button href="store">Store</Button>
+      </Header>
 
       <main className="overflow-hidden">
         <ul className="flex flex-col h-full flex-grow justify-end items-center overflow-hidden relative">
@@ -70,6 +61,6 @@ export default function Home() {
       <footer className="grid grid-cols-1 gap-4 p-4">
         <RainbowButton onClick={rollDice}>Roll</RainbowButton>
       </footer>
-    </>
+    </PageContainer>
   );
 }

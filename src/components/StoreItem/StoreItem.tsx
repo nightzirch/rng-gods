@@ -13,8 +13,9 @@ export function StoreItem({ item, onClick, disabled }: StoreItemProps) {
       onClick={onClick}
       disabled={disabled}
     >
-      <div className="flex flex-col items-center justify-center bg-slate-400 rounded-xl text-black">
+      <div className="flex flex-col items-center justify-center bg-white rounded-xl text-black">
         <span className="text-3xl font-bold text-center ">{item.label}</span>
+        <span className="text-3xl font-bold text-center ">{item.duration} seconds</span>
         <span className="text-3xl font-bold text-center ">
           {item.cost} coins
         </span>
