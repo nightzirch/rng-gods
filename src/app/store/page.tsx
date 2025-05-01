@@ -5,11 +5,12 @@ import { StoreItem } from "@/components/StoreItem/StoreItem";
 import { ModifierContext } from "@/context/ModifierContext";
 import { StoreContext } from "@/context/StoreContext";
 import { StoreItemType } from "@/types/Store";
+import { formatModifierByActiveStoreItems } from "@/utils/modifier";
 import { useContext } from "react";
 
 export default function Store() {
   const { store, removeCoinsByStoreItem } = useContext(StoreContext);
-  const { addModifier } = useContext(ModifierContext);
+  const { activeModifiers, addModifier } = useContext(ModifierContext);
 
   function handleItemClick(item: StoreItemType) {
     addModifier(item);
@@ -43,6 +44,9 @@ export default function Store() {
         <div className="flex flex-col items-center justify-center">
           <span className="text-3xl font-bold text-center ">
             Coins: {store.coins}
+          </span>
+          <span className="text-3xl font-bold text-center ">
+            Luck: {formatModifierByActiveStoreItems(activeModifiers)}
           </span>
         </div>
 

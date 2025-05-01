@@ -1,26 +1,27 @@
 import { Rarity } from "../types/Rarity";
+import { getChanceByModifiers } from "./modifier";
 
 export function roll(): number {
   return Math.random();
 }
 
-export function getRarity(roll: number): Rarity {
-  if (roll < 0.5) {
+export function getRarity(roll: number, modifier: number): Rarity {
+  if (roll < getChanceByModifiers(0.5, modifier)) {
     // 1 in 2
     return "Common";
-  } else if (roll < 0.8) {
+  } else if (roll < getChanceByModifiers(0.8, modifier)) {
     // 1 in 5
     return "Uncommon";
-  } else if (roll < 0.9) {
+  } else if (roll < getChanceByModifiers(0.9, modifier)) {
     // 1 in 10
     return "Rare";
-  } else if (roll < 0.96) {
+  } else if (roll < getChanceByModifiers(0.96, modifier)) {
     // 1 in 25
     return "Epic";
-  } else if (roll < 0.98) {
+  } else if (roll < getChanceByModifiers(0.98, modifier)) {
     // 1 in 50
     return "Legendary";
-  } else if (roll < 0.99) {
+  } else if (roll < getChanceByModifiers(0.99, modifier)) {
     // 1 in 100
     return "Mythic";
   }

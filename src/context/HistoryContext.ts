@@ -5,7 +5,7 @@ import { createContext } from "react";
 
 type HistoryContextType = {
   history: History[];
-  addToHistory: (roll: number) => History;
+  addToHistory: (roll: number, modifier: number) => History;
 };
 
 export const initialHistoryContext: HistoryContextType = {
