@@ -15,7 +15,7 @@ export function InventoryItem({ item }: StoreItemProps) {
       </span>
 
       <div
-        className="absolute top-0 bottom-0 left-0 bg-white h-full -z-1 rounded-xl"
+        className="absolute top-0 bottom-0 left-0 bg-white h-full -z-1 rounded-xl transition-all duration-1000 ease-linear"
         style={{ width: `${widthPercentage}%` }}
       ></div>
     </div>
