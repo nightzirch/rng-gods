@@ -4,14 +4,14 @@ import { BackButton } from "@/components/BackButton/BackButton";
 import Header from "@/components/Header/Header";
 import PageContainer from "@/components/PageContainer/PageContainer";
 import { StoreItem } from "@/components/StoreItem/StoreItem";
-import { ModifierContext } from "@/context/ModifierContext";
+import { UpgradeContext } from "@/context/UpgradeContext";
 import { StoreContext } from "@/context/StoreContext";
 import { StoreItemType } from "@/types/Store";
 import { useContext } from "react";
 
 export default function Store() {
   const { store, removeCoinsByStoreItem } = useContext(StoreContext);
-  const { addModifier } = useContext(ModifierContext);
+  const { addModifier } = useContext(UpgradeContext);
 
   function handleItemClick(item: StoreItemType) {
     addModifier(item);

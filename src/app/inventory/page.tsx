@@ -4,11 +4,11 @@ import { BackButton } from "@/components/BackButton/BackButton";
 import Header from "@/components/Header/Header";
 import { InventoryItem } from "@/components/InventoryItem/InventoryItem";
 import PageContainer from "@/components/PageContainer/PageContainer";
-import { ModifierContext } from "@/context/ModifierContext";
+import { UpgradeContext } from "@/context/UpgradeContext";
 import { useContext } from "react";
 
 export default function Inventory() {
-  const { activeModifiers } = useContext(ModifierContext);
+  const { activeModifiers } = useContext(UpgradeContext);
 
   return (
     <PageContainer>

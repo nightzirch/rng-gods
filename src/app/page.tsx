@@ -7,16 +7,16 @@ import HistoryItem from "@/components/HistoryItem/HistoryItem";
 import PageContainer from "@/components/PageContainer/PageContainer";
 import { RainbowButton } from "@/components/RainbowButton/RainbowButton";
 import { HistoryContext } from "@/context/HistoryContext";
-import { ModifierContext } from "@/context/ModifierContext";
+import { UpgradeContext } from "@/context/UpgradeContext";
 import { StoreContext } from "@/context/StoreContext";
-import { getModifierByActiveStoreItems } from "@/utils/modifier";
+import { getModifierByActiveStoreItems } from "@/utils/upgrade";
 import { roll } from "@/utils/rarity";
 import { useContext, useState } from "react";
 
 export default function Home() {
   const { history, addToHistory } = useContext(HistoryContext);
   const { addCoinsByHistory } = useContext(StoreContext);
-  const { activeModifiers } = useContext(ModifierContext);
+  const { activeModifiers } = useContext(UpgradeContext);
 
   const [showVideo, setShowVideo] = useState(false);
 

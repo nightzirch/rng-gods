@@ -1,13 +1,13 @@
 "use client";
 
-import { ModifierContext } from "@/context/ModifierContext";
+import { UpgradeContext } from "@/context/UpgradeContext";
 import { StoreContext } from "@/context/StoreContext";
-import { formatModifierByActiveStoreItems } from "@/utils/modifier";
+import { formatModifierByActiveStoreItems } from "@/utils/upgrade";
 import { useContext } from "react";
 
 export default function Header({ children }: { children: React.ReactNode }) {
   const { store } = useContext(StoreContext);
-  const { activeModifiers } = useContext(ModifierContext);
+  const { activeModifiers } = useContext(UpgradeContext);
 
   return (
     <header className="grid grid-cols-2 gap-4 p-4">

@@ -4,8 +4,8 @@ import { StoreContext } from "@/context/StoreContext";
 import { useHistory } from "@/hooks/useHistory";
 import { useStore } from "@/hooks/useStore";
 import { HistoryContext } from "./HistoryContext";
-import { ModifierContext } from "./ModifierContext";
-import { useModifier } from "@/hooks/useModifier";
+import { UpgradeContext } from "./UpgradeContext";
+import { useModifier } from "@/hooks/useUpgrade";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const { store, addCoinsByHistory, removeCoinsByStoreItem } = useStore();
@@ -17,9 +17,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       value={{ store, addCoinsByHistory, removeCoinsByStoreItem }}
     >
       <HistoryContext.Provider value={{ history, addToHistory }}>
-        <ModifierContext.Provider value={{ activeModifiers, addModifier }}>
+        <UpgradeContext.Provider value={{ activeModifiers, addModifier }}>
           {children}
-        </ModifierContext.Provider>
+        </UpgradeContext.Provider>
       </HistoryContext.Provider>
     </StoreContext.Provider>
   );

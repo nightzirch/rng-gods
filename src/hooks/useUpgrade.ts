@@ -1,4 +1,4 @@
-import { ModifierType, ActiveModifierType } from "@/types/Modifier";
+import { ModifierType, ActiveModifierType } from "@/types/Upgrade";
 import { useEffect, useReducer } from "react";
 
 function modifierReducer(

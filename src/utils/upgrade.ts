@@ -1,4 +1,4 @@
-import { ActiveModifierType } from "@/types/Modifier";
+import { ActiveModifierType } from "@/types/Upgrade";
 
 export const getChanceByModifiers = (chance: number, modifier: number) => {
   return chance - (1 - chance) * modifier;

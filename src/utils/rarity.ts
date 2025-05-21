@@ -1,5 +1,5 @@
 import { Rarity } from "../types/Rarity";
-import { getChanceByModifiers } from "./modifier";
+import { getChanceByModifiers } from "./upgrade";
 
 export function roll(): number {
   return Math.random();
