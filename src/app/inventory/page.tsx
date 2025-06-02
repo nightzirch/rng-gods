@@ -8,7 +8,7 @@ import { UpgradeContext } from "@/context/UpgradeContext";
 import { useContext } from "react";
 
 export default function Inventory() {
-  const { activeModifiers } = useContext(UpgradeContext);
+  const { activeUpgrades } = useContext(UpgradeContext);
 
   return (
     <PageContainer>
@@ -18,7 +18,7 @@ export default function Inventory() {
 
       <main className="p-4">
         <div className="grid grid-cols-2 gap-4">
-          {activeModifiers.map((item, index) => (
+          {activeUpgrades.map((item, index) => (
             <InventoryItem key={index} item={item} />
           ))}
         </div>

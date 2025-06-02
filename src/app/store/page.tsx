@@ -11,10 +11,25 @@ import { useContext } from "react";
 
 export default function Store() {
   const { store, removeCoinsByStoreItem } = useContext(StoreContext);
-  const { addModifier } = useContext(UpgradeContext);
+  const { addTemporaryModifier, addPermanentModifier, addAccountUpgrade } =
+    useContext(UpgradeContext);
 
   function handleItemClick(item: StoreItemType) {
-    addModifier(item);
+    switch (item.type) {
+      case "upgrade":
+        addAccountUpgrade(item);
+        break;
+      case "permanentModifier":
+        addPermanentModifier(item);
+        break;
+      case "temporaryModifier":
+        addTemporaryModifier(item);
+        break;
+      default:
+        console.error("Unknown item type");
+        return;
+    }
+
     removeCoinsByStoreItem(item);
   }
 
@@ -24,18 +39,33 @@ export default function Store() {
       label: "x0.5 luck",
       luckModifier: 0.5,
       duration: 60,
+      type: "temporaryModifier",
     },
     {
       cost: 2000,
       label: "x2 luck",
       luckModifier: 2,
       duration: 90,
+      type: "temporaryModifier",
     },
     {
       cost: 10000,
       label: "x10 luck",
       luckModifier: 10,
       duration: 120,
+      type: "temporaryModifier",
+    },
+    {
+      cost: 100000,
+      label: "x10 luck",
+      luckModifier: 10,
+      type: "permanentModifier",
+    },
+    {
+      cost: 100000,
+      label: "Autoclicker",
+      type: "upgrade",
+      subtype: "autoclicker",
     },
   ];
 

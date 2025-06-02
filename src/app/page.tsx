@@ -9,20 +9,20 @@ import { RainbowButton } from "@/components/RainbowButton/RainbowButton";
 import { HistoryContext } from "@/context/HistoryContext";
 import { UpgradeContext } from "@/context/UpgradeContext";
 import { StoreContext } from "@/context/StoreContext";
-import { getModifierByActiveStoreItems } from "@/utils/upgrade";
+import { getModifierByActiveUpgrades } from "@/utils/upgrade";
 import { roll } from "@/utils/rarity";
 import { useContext, useState } from "react";
 
 export default function Home() {
   const { history, addToHistory } = useContext(HistoryContext);
   const { addCoinsByHistory } = useContext(StoreContext);
-  const { activeModifiers } = useContext(UpgradeContext);
+  const { activeUpgrades } = useContext(UpgradeContext);
 
   const [showVideo, setShowVideo] = useState(false);
 
   function rollDice() {
     const rollResult = roll();
-    const modifier = getModifierByActiveStoreItems(activeModifiers);
+    const modifier = getModifierByActiveUpgrades(activeUpgrades);
     const item = addToHistory(rollResult, modifier);
     addCoinsByHistory(item);
 

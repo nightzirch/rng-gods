@@ -1,7 +1,7 @@
-import { ActiveModifierType } from "@/types/Modifier";
+import { ActiveTemporaryModifierType } from "@/types/Modifier";
 
 export type StoreItemProps = {
-  item: ActiveModifierType;
+  item: ActiveTemporaryModifierType;
 };
 
 export function InventoryItem({ item }: StoreItemProps) {

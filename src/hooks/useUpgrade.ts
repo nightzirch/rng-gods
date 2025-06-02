@@ -1,12 +1,21 @@
-import { ModifierType, ActiveModifierType } from "@/types/Upgrade";
+import {
+  AccountUpgradeType,
+  PermanentModifierType,
+  TemporaryModifierType,
+} from "@/types/Store";
+import { ActiveUpgradeType } from "@/types/Upgrade";
 import { useEffect, useReducer } from "react";
 
 function modifierReducer(
-  state: ActiveModifierType[],
-  action: { type: "ADD"; payload: ModifierType } | { type: "DECREASE_DURATION" }
+  state: ActiveUpgradeType[],
+  action:
+    | { type: "ADD_TEMPORARY_MODIFIER"; payload: TemporaryModifierType }
+    | { type: "ADD_PERMANENT_MODIFIER"; payload: PermanentModifierType }
+    | { type: "ADD_ACCOUNT_UPGRADE"; payload: AccountUpgradeType }
+    | { type: "DECREASE_DURATION" }
 ) {
   switch (action.type) {
-    case "ADD":
+    case "ADD_TEMPORARY_MODIFIER":
       return [
         ...state,
         {
@@ -15,28 +24,68 @@ function modifierReducer(
           durationLeft: action.payload.duration,
         },
       ];
+    case "ADD_PERMANENT_MODIFIER":
+      return [
+        ...state,
+        {
+          ...action.payload,
+          added: Date.now().toString(),
+        },
+      ];
+    case "ADD_ACCOUNT_UPGRADE":
+      return [
+        ...state,
+        {
+          ...action.payload,
+          added: Date.now().toString(),
+        },
+      ];
     case "DECREASE_DURATION":
-      const newState = state.map((modifier) => ({
-        ...modifier,
-        durationLeft: modifier.durationLeft - 1,
-      }));
-      return newState.filter((modifier) => modifier.durationLeft > 0);
+      const newState = state.map((modifier) => {
+        if (modifier.type === "temporaryModifier") {
+          return {
+            ...modifier,
+            durationLeft: modifier.durationLeft - 1,
+          };
+        }
+
+        return modifier;
+      });
+
+      return newState.filter(
+        (modifier) =>
+          modifier.type === "temporaryModifier" && modifier.durationLeft > 0
+      );
     default:
       throw new Error(`Unknown action type`);
   }
 }
 
-export const initialModifierState: ActiveModifierType[] = [];
+export const initialUpgradeState: ActiveUpgradeType[] = [];
 
-export function useModifier() {
-  const [activeModifiers, storeDispatch] = useReducer(
+export function useUpgrade() {
+  const [activeUpgrades, storeDispatch] = useReducer(
     modifierReducer,
-    initialModifierState
+    initialUpgradeState
   );
 
-  const addModifier = (modifier: ModifierType) => {
+  const addTemporaryModifier = (modifier: TemporaryModifierType) => {
     storeDispatch({
-      type: "ADD",
+      type: "ADD_TEMPORARY_MODIFIER",
+      payload: modifier,
+    });
+  };
+
+  const addPermanentModifier = (modifier: PermanentModifierType) => {
+    storeDispatch({
+      type: "ADD_PERMANENT_MODIFIER",
+      payload: modifier,
+    });
+  };
+
+  const addAccountUpgrade = (modifier: AccountUpgradeType) => {
+    storeDispatch({
+      type: "ADD_ACCOUNT_UPGRADE",
       payload: modifier,
     });
   };
@@ -55,5 +104,10 @@ export function useModifier() {
     []
   );
 
-  return { activeModifiers, addModifier };
+  return {
+    activeUpgrades,
+    addTemporaryModifier,
+    addPermanentModifier,
+    addAccountUpgrade,
+  };
 }

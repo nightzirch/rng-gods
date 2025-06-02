@@ -1,16 +1,25 @@
 'use client";';
 
-import { ActiveModifierType, ModifierType } from "@/types/Upgrade";
+import {
+  AccountUpgradeType,
+  PermanentModifierType,
+  TemporaryModifierType,
+} from "@/types/Store";
+import { ActiveUpgradeType } from "@/types/Upgrade";
 import { createContext } from "react";
 
 type UpgradeContextType = {
-  activeModifiers: ActiveModifierType[];
-  addModifier: (modifier: ModifierType) => void;
+  activeUpgrades: ActiveUpgradeType[];
+  addTemporaryModifier: (modifier: TemporaryModifierType) => void;
+  addPermanentModifier: (modifier: PermanentModifierType) => void;
+  addAccountUpgrade: (upgrade: AccountUpgradeType) => void;
 };
 
 export const initialUpgradeContext: UpgradeContextType = {
-  activeModifiers: [],
-  addModifier: () => {},
+  activeUpgrades: [],
+  addTemporaryModifier: () => {},
+  addPermanentModifier: () => {},
+  addAccountUpgrade: () => {},
 };
 
 export const UpgradeContext = createContext<UpgradeContextType>(
