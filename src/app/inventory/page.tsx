@@ -10,17 +10,65 @@ import { useContext } from "react";
 export default function Inventory() {
   const { activeUpgrades } = useContext(UpgradeContext);
 
+  const temporaryUpgrades = activeUpgrades.filter(
+    (upgrade) => upgrade.type === "temporaryModifier"
+  );
+
+  const permanentUpgrades = activeUpgrades.filter(
+    (upgrade) => upgrade.type === "permanentModifier"
+  );
+
+  const accountUpgrades = activeUpgrades.filter(
+    (upgrade) => upgrade.type === "upgrade"
+  );
+
   return (
     <PageContainer>
       <Header>
         <BackButton />
       </Header>
 
-      <main className="p-4">
+      <main className="flex flex-col gap-20 p-4">
         <div className="grid grid-cols-2 gap-4">
-          {activeUpgrades.map((item, index) => (
-            <InventoryItem key={index} item={item} />
-          ))}
+          <span className="text-2xl font-bold col-span-2">
+            <h2>Temporary upgrades</h2>
+          </span>
+
+          {temporaryUpgrades.length ? (
+            temporaryUpgrades.map((item, index) => (
+              <InventoryItem key={index} item={item} />
+            ))
+          ) : (
+            <p>No upgrades to show</p>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <span className="text-2xl font-bold col-span-2">
+            <h2>Permanent upgrades</h2>
+          </span>
+
+          {permanentUpgrades.length ? (
+            permanentUpgrades.map((item, index) => (
+              <InventoryItem key={index} item={item} />
+            ))
+          ) : (
+            <p>No upgrades to show</p>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <span className="text-2xl font-bold col-span-2">
+            <h2>Account upgrades</h2>
+          </span>
+
+          {accountUpgrades.length ? (
+            accountUpgrades.map((item, index) => (
+              <InventoryItem key={index} item={item} />
+            ))
+          ) : (
+            <p>No upgrades to show</p>
+          )}
         </div>
       </main>
 

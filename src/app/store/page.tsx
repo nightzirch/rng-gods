@@ -69,15 +69,61 @@ export default function Store() {
     },
   ];
 
+  const temporaryUpgrades = storeItems.filter(
+    (upgrade) => upgrade.type === "temporaryModifier"
+  );
+
+  const permanentUpgrades = storeItems.filter(
+    (upgrade) => upgrade.type === "permanentModifier"
+  );
+
+  const accountUpgrades = storeItems.filter(
+    (upgrade) => upgrade.type === "upgrade"
+  );
+
   return (
     <PageContainer>
       <Header>
         <BackButton />
       </Header>
 
-      <main className="p-4">
+      <main className="flex flex-col gap-20 p-4">
         <div className="grid grid-cols-2 gap-4">
-          {storeItems.map((item, index) => (
+          <span className="text-2xl font-bold col-span-2">
+            <h2>Temporary upgrades</h2>
+          </span>
+
+          {temporaryUpgrades.map((item, index) => (
+            <StoreItem
+              key={index}
+              item={item}
+              onClick={() => handleItemClick(item)}
+              disabled={store.coins <= item.cost}
+            />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <span className="text-2xl font-bold col-span-2">
+            <h2>Permanent upgrades</h2>
+          </span>
+
+          {permanentUpgrades.map((item, index) => (
+            <StoreItem
+              key={index}
+              item={item}
+              onClick={() => handleItemClick(item)}
+              disabled={store.coins <= item.cost}
+            />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <span className="text-2xl font-bold col-span-2">
+            <h2>Account upgrades</h2>
+          </span>
+
+          {accountUpgrades.map((item, index) => (
             <StoreItem
               key={index}
               item={item}
