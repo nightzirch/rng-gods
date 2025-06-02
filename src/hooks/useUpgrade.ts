@@ -52,9 +52,8 @@ function modifierReducer(
         return modifier;
       });
 
-      return newState.filter(
-        (modifier) =>
-          modifier.type === "temporaryModifier" && modifier.durationLeft > 0
+      return newState.filter((modifier) =>
+        "durationLeft" in modifier ? modifier.durationLeft > 0 : true
       );
     default:
       throw new Error(`Unknown action type`);

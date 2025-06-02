@@ -39,7 +39,7 @@ export default function Inventory() {
               <InventoryItem key={index} item={item} />
             ))
           ) : (
-            <p>No upgrades to show</p>
+            <p>No temporary upgrades to show</p>
           )}
         </div>
 
@@ -53,7 +53,7 @@ export default function Inventory() {
               <InventoryItem key={index} item={item} />
             ))
           ) : (
-            <p>No upgrades to show</p>
+            <p>No permanent upgrades to show</p>
           )}
         </div>
 
@@ -67,7 +67,7 @@ export default function Inventory() {
               <InventoryItem key={index} item={item} />
             ))
           ) : (
-            <p>No upgrades to show</p>
+            <p>No account upgrades to show</p>
           )}
         </div>
       </main>
