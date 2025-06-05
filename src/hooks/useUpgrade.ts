@@ -5,11 +5,17 @@ import {
 } from "@/types/Store";
 import { ActiveUpgradeType } from "@/types/Upgrade";
 import { useEffect, useReducer } from "react";
+import { loadFromStorage, saveToStorage } from "@/utils/storage";
+
+const UPGRADE_STORAGE_KEY = "game_upgrades";
 
 function modifierReducer(
   state: ActiveUpgradeType[],
   action:
-    | { type: "ADD_TEMPORARY_MODIFIER"; payload: TemporaryModifierType }
+    | {
+        type: "ADD_TEMPORARY_MODIFIER";
+        payload: TemporaryModifierType & { durationLeft?: number };
+      }
     | { type: "ADD_PERMANENT_MODIFIER"; payload: PermanentModifierType }
     | { type: "ADD_ACCOUNT_UPGRADE"; payload: AccountUpgradeType }
     | { type: "DECREASE_DURATION" }
@@ -21,7 +27,7 @@ function modifierReducer(
         {
           ...action.payload,
           added: Date.now().toString(),
-          durationLeft: action.payload.duration,
+          durationLeft: action.payload.durationLeft ?? action.payload.duration,
         },
       ];
     case "ADD_PERMANENT_MODIFIER":
@@ -68,6 +74,50 @@ export function useUpgrade() {
     initialUpgradeState
   );
 
+  // Load initial state from localStorage on client side only
+  useEffect(() => {
+    const savedUpgrades = loadFromStorage<ActiveUpgradeType[]>(
+      UPGRADE_STORAGE_KEY,
+      []
+    );
+
+    savedUpgrades.forEach((upgrade) => {
+      if (upgrade.type === "temporaryModifier") {
+        const remainingDuration = upgrade.durationLeft;
+
+        if (remainingDuration > 0) {
+          storeDispatch({
+            type: "ADD_TEMPORARY_MODIFIER",
+            payload: {
+              ...upgrade,
+              durationLeft: remainingDuration,
+            },
+          });
+        }
+      } else if (upgrade.type === "permanentModifier") {
+        storeDispatch({ type: "ADD_PERMANENT_MODIFIER", payload: upgrade });
+      } else if (upgrade.type === "upgrade") {
+        storeDispatch({ type: "ADD_ACCOUNT_UPGRADE", payload: upgrade });
+      }
+    });
+  }, []);
+
+  // Save upgrades to localStorage whenever they change
+  useEffect(() => {
+    saveToStorage(UPGRADE_STORAGE_KEY, activeUpgrades);
+  }, [activeUpgrades]);
+
+  // Duration decrease timer
+  useEffect(() => {
+    const tick = setInterval(() => {
+      storeDispatch({
+        type: "DECREASE_DURATION",
+      });
+    }, 1000);
+
+    return () => clearInterval(tick);
+  }, []);
+
   const addTemporaryModifier = (modifier: TemporaryModifierType) => {
     storeDispatch({
       type: "ADD_TEMPORARY_MODIFIER",
@@ -88,20 +138,6 @@ export function useUpgrade() {
       payload: modifier,
     });
   };
-
-  useEffect(
-    () => {
-      const tick = setInterval(() => {
-        storeDispatch({
-          type: "DECREASE_DURATION",
-        });
-      }, 1000);
-
-      return () => clearInterval(tick);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   return {
     activeUpgrades,
