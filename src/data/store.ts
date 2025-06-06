@@ -67,7 +67,7 @@ export const storeItems: StoreItemType[] = [
     type: "permanentModifier",
   },
   {
-    cost: 100000,
+    cost: 10000,
     label: "Autoclicker",
     type: "upgrade",
     subtype: "autoclicker",
