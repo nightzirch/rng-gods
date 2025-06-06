@@ -7,11 +7,11 @@ import HistoryItem from "@/components/HistoryItem/HistoryItem";
 import PageContainer from "@/components/PageContainer/PageContainer";
 import { RainbowButton } from "@/components/RainbowButton/RainbowButton";
 import { HistoryContext } from "@/context/HistoryContext";
-import { UpgradeContext } from "@/context/UpgradeContext";
 import { StoreContext } from "@/context/StoreContext";
-import { getModifierByActiveUpgrades } from "@/utils/upgrade";
+import { UpgradeContext } from "@/context/UpgradeContext";
 import { roll } from "@/utils/rarity";
-import { useContext, useState } from "react";
+import { getModifierByActiveUpgrades } from "@/utils/upgrade";
+import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
   const { history, addToHistory } = useContext(HistoryContext);
@@ -20,7 +20,12 @@ export default function Home() {
 
   const [showVideo, setShowVideo] = useState(false);
 
-  function rollDice() {
+  // Check if autoclicker is active
+  const hasAutoclicker = activeUpgrades.some(
+    (upgrade) => upgrade.type === "upgrade" && upgrade.subtype === "autoclicker"
+  );
+
+  const rollDice = () => {
     const rollResult = roll();
     const modifier = getModifierByActiveUpgrades(activeUpgrades);
     const item = addToHistory(rollResult, modifier);
@@ -40,7 +45,15 @@ export default function Home() {
         setShowVideo(false);
       }, 1000);
     }
-  }
+  };
+
+  useEffect(() => {
+    if (!hasAutoclicker) return;
+
+    const tick = setInterval(rollDice, 1000);
+
+    return () => clearInterval(tick);
+  }, [hasAutoclicker]);
 
   return (
     <PageContainer>
