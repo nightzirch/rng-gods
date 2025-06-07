@@ -1,5 +1,6 @@
 'use client";';
 
+import { rarities } from "@/data/rarities";
 import { History } from "@/types/History";
 import { createContext } from "react";
 
@@ -14,7 +15,7 @@ export const initialHistoryContext: HistoryContextType = {
     return {
       roll: 0,
       timestamp: new Date(),
-      rarity: "Common",
+      rarity: rarities[0],
       id: "",
     };
   },
