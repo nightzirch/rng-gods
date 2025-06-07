@@ -66,10 +66,10 @@ export const storeItems: StoreItemType[] = [
     luckModifier: 10,
     type: "permanentModifier",
   },
-  {
-    cost: 10000,
-    label: "Autoclicker",
-    type: "upgrade",
-    subtype: "autoclicker",
-  },
+  // {
+  //   cost: 10000,
+  //   label: "Autoclicker",
+  //   type: "upgrade",
+  //   subtype: "autoclicker",
+  // },
 ];

@@ -9,7 +9,7 @@ import { loadFromStorage, saveToStorage } from "@/utils/storage";
 
 const UPGRADE_STORAGE_KEY = "game_upgrades";
 
-function modifierReducer(
+function upgradeReducer(
   state: ActiveUpgradeType[],
   action:
     | {
@@ -70,7 +70,7 @@ export const initialUpgradeState: ActiveUpgradeType[] = [];
 
 export function useUpgrade() {
   const [activeUpgrades, storeDispatch] = useReducer(
-    modifierReducer,
+    upgradeReducer,
     initialUpgradeState
   );
 

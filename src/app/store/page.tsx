@@ -53,50 +53,56 @@ export default function Store() {
       </Header>
 
       <main className="flex flex-col gap-20 p-4">
-        <div className="grid grid-cols-2 gap-4">
-          <span className="text-2xl font-bold col-span-2">
-            <h2>Temporary upgrades</h2>
-          </span>
+        {temporaryUpgrades && (
+          <div className="grid grid-cols-2 gap-4">
+            <span className="text-2xl font-bold col-span-2">
+              <h2>Temporary upgrades</h2>
+            </span>
 
-          {temporaryUpgrades.map((item, index) => (
-            <StoreItem
-              key={index}
-              item={item}
-              onClick={() => handleItemClick(item)}
-              disabled={store.coins <= item.cost}
-            />
-          ))}
-        </div>
+            {temporaryUpgrades.map((item, index) => (
+              <StoreItem
+                key={index}
+                item={item}
+                onClick={() => handleItemClick(item)}
+                disabled={store.coins <= item.cost}
+              />
+            ))}
+          </div>
+        )}
 
-        <div className="grid grid-cols-2 gap-4">
-          <span className="text-2xl font-bold col-span-2">
-            <h2>Permanent upgrades</h2>
-          </span>
+        {permanentUpgrades && (
+          <div className="grid grid-cols-2 gap-4">
+            <span className="text-2xl font-bold col-span-2">
+              <h2>Permanent upgrades</h2>
+            </span>
 
-          {permanentUpgrades.map((item, index) => (
-            <StoreItem
-              key={index}
-              item={item}
-              onClick={() => handleItemClick(item)}
-              disabled={store.coins <= item.cost}
-            />
-          ))}
-        </div>
+            {permanentUpgrades.map((item, index) => (
+              <StoreItem
+                key={index}
+                item={item}
+                onClick={() => handleItemClick(item)}
+                disabled={store.coins <= item.cost}
+              />
+            ))}
+          </div>
+        )}
 
-        <div className="grid grid-cols-2 gap-4">
-          <span className="text-2xl font-bold col-span-2">
-            <h2>Account upgrades</h2>
-          </span>
+        {accountUpgrades.length && (
+          <div className="grid grid-cols-2 gap-4">
+            <span className="text-2xl font-bold col-span-2">
+              <h2>Account upgrades</h2>
+            </span>
 
-          {accountUpgrades.map((item, index) => (
-            <StoreItem
-              key={index}
-              item={item}
-              onClick={() => handleItemClick(item)}
-              disabled={store.coins <= item.cost}
-            />
-          ))}
-        </div>
+            {accountUpgrades.map((item, index) => (
+              <StoreItem
+                key={index}
+                item={item}
+                onClick={() => handleItemClick(item)}
+                disabled={store.coins <= item.cost}
+              />
+            ))}
+          </div>
+        )}
       </main>
 
       <footer></footer>

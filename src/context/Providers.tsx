@@ -1,11 +1,13 @@
 "use client";
 
 import { StoreContext } from "@/context/StoreContext";
+import { useAutoclicker } from "@/hooks/useAutoclicker";
 import { useHistory } from "@/hooks/useHistory";
 import { useStore } from "@/hooks/useStore";
+import { useUpgrade } from "@/hooks/useUpgrade";
+import { AutoclickerContext } from "./AutoclickerContext";
 import { HistoryContext } from "./HistoryContext";
 import { UpgradeContext } from "./UpgradeContext";
-import { useUpgrade } from "@/hooks/useUpgrade";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const { store, addCoinsByHistory, removeCoinsByStoreItem } = useStore();
@@ -16,6 +18,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     addPermanentModifier,
     addTemporaryModifier,
   } = useUpgrade();
+  const {
+    hasAutoclickerUpgrade,
+    isAutoclickerActive,
+    startAutoclicker,
+    stopAutoclicker,
+    autoclickerDelay,
+    setAutoclickerDelay,
+  } = useAutoclicker();
 
   return (
     <StoreContext.Provider
@@ -30,7 +40,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             addPermanentModifier,
           }}
         >
-          {children}
+          <AutoclickerContext.Provider
+            value={{
+              hasAutoclickerUpgrade,
+              isAutoclickerActive,
+              autoclickerDelay,
+              setAutoclickerDelay,
+              startAutoclicker,
+              stopAutoclicker,
+            }}
+          >
+            {children}
+          </AutoclickerContext.Provider>
         </UpgradeContext.Provider>
       </HistoryContext.Provider>
     </StoreContext.Provider>

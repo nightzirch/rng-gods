@@ -1,8 +1,7 @@
-import { useReducer, useEffect } from "react";
+import { loadFromStorage, saveToStorage } from "@/utils/storage";
+import { useEffect, useReducer } from "react";
 import { History } from "../types/History";
 import { Store, StoreItemType } from "../types/Store";
-import { getCoinsByRarity } from "../utils/coins";
-import { loadFromStorage, saveToStorage } from "@/utils/storage";
 
 const STORE_STORAGE_KEY = "game_store";
 
@@ -17,7 +16,7 @@ function StoreReducer(
     case "ADD_COIN":
       return {
         ...state,
-        coins: state.coins + getCoinsByRarity(action.payload.rarity),
+        coins: state.coins + action.payload.rarity.coins,
       };
     case "REMOVE_COIN":
       return {
@@ -43,7 +42,10 @@ export function useStore() {
 
   // Load initial state from localStorage on client side only
   useEffect(() => {
-    const savedState = loadFromStorage<Store>(STORE_STORAGE_KEY, initialStoreState);
+    const savedState = loadFromStorage<Store>(
+      STORE_STORAGE_KEY,
+      initialStoreState
+    );
     storeDispatch({ type: "SET_COINS", payload: savedState.coins });
   }, []); // Only run once on mount
 

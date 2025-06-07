@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/Button/Button";
-import { Cutscene } from "@/components/Cutscene/Cutscene";
 import Header from "@/components/Header/Header";
 import HistoryItem from "@/components/HistoryItem/HistoryItem";
 import PageContainer from "@/components/PageContainer/PageContainer";
@@ -9,21 +8,18 @@ import { RainbowButton } from "@/components/RainbowButton/RainbowButton";
 import { HistoryContext } from "@/context/HistoryContext";
 import { StoreContext } from "@/context/StoreContext";
 import { UpgradeContext } from "@/context/UpgradeContext";
+import { useAutoclicker } from "@/hooks/useAutoclicker";
 import { roll } from "@/utils/rarity";
 import { getModifierByActiveUpgrades } from "@/utils/upgrade";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 export default function Home() {
   const { history, addToHistory } = useContext(HistoryContext);
   const { addCoinsByHistory } = useContext(StoreContext);
   const { activeUpgrades } = useContext(UpgradeContext);
+  const { isAutoclickerActive, autoclickerDelay } = useAutoclicker();
 
-  const [showVideo, setShowVideo] = useState(false);
-
-  // Check if autoclicker is active
-  const hasAutoclicker = activeUpgrades.some(
-    (upgrade) => upgrade.type === "upgrade" && upgrade.subtype === "autoclicker"
-  );
+  // const [showVideo, setShowVideo] = useState(false);
 
   const rollDice = () => {
     const rollResult = roll();
@@ -31,29 +27,31 @@ export default function Home() {
     const item = addToHistory(rollResult, modifier);
     addCoinsByHistory(item);
 
-    if (item.rarity === "Mythic") {
-      setShowVideo(true);
+    // if (item.rarity === "Mythic") {
+    //   setShowVideo(true);
+    //   const video = document.querySelector("video");
 
-      const video = document.querySelector("video");
+    //   if (video) {
+    //     video.playbackRate = 0.5;
+    //     video.play();
+    //   }
 
-      if (video) {
-        video.playbackRate = 0.5;
-        video.play();
-      }
-
-      setTimeout(() => {
-        setShowVideo(false);
-      }, 1000);
-    }
+    //   setTimeout(() => {
+    //     setShowVideo(false);
+    //   }, 1000);
+    // }
   };
 
+  // Set up autoclicker effect
   useEffect(() => {
-    if (!hasAutoclicker) return;
+    console.log(
+      `Autoclicker active: ${isAutoclickerActive}, Delay: ${autoclickerDelay}ms`
+    );
+    if (!isAutoclickerActive) return;
 
-    const tick = setInterval(rollDice, 1000);
-
-    return () => clearInterval(tick);
-  }, [hasAutoclicker]);
+    const autoclicker = setInterval(rollDice, autoclickerDelay);
+    return () => clearInterval(autoclicker);
+  }, [isAutoclickerActive, autoclickerDelay]);
 
   return (
     <PageContainer>
@@ -67,12 +65,13 @@ export default function Home() {
           {history.map((item) => (
             <HistoryItem key={item.id} item={item} />
           ))}
-          {showVideo && <Cutscene />}
+          {/* {showVideo && <Cutscene />} */}
         </ul>
       </main>
 
-      <footer className="grid grid-cols-1 gap-4 p-4">
+      <footer className="flex items-center justify-between gap-4 p-4">
         <RainbowButton onClick={rollDice}>Roll</RainbowButton>
+        {/* <AutoclickerButton /> */}
       </footer>
     </PageContainer>
   );

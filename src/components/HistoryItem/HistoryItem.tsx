@@ -1,11 +1,6 @@
 "use client";
 
 import { History } from "@/types/History";
-import {
-  getChanceByRarity,
-  getColorByRarity,
-  getSizeByRarity,
-} from "@/utils/rarity";
 import classNames from "classnames";
 
 type HistoryItemProps = {
@@ -13,15 +8,16 @@ type HistoryItemProps = {
 };
 
 export default function HistoryItem({ item }: HistoryItemProps) {
+  const label = `${item.rarity.label} - ${item.rarity.chanceLabel}`;
   return (
     <li
       className={classNames(
         "text-center atma-bold uppercase",
-        getColorByRarity(item.rarity),
-        getSizeByRarity(item.rarity)
+        item.rarity.textColor,
+        item.rarity.textSize
       )}
     >
-      {getChanceByRarity(item.rarity)} - {item.rarity}
+      {label}
     </li>
   );
 }
